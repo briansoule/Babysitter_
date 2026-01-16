@@ -58,8 +58,69 @@ Detailed guide: https://developers.google.com/nest/device-access/get-started
 2. Averages the temperature readings
 3. If average is THRESHOLD degrees below target → Heat
 4. If average is THRESHOLD degrees above target → Cool
-5. Logs everything to JSON file (data.json)
+5. Logs everything to SQLite database (thermostat.db)
 6. Dashboard shows current state and history
+
+**Note:** The Nest's internal temperature sensor is assumed to be inaccurate. This app overrides the Nest by setting extreme setpoints to force HVAC on/off based on your external sensor readings.
+
+## Running as a System Service (macOS)
+
+To run the app at boot (even before login), install it as a LaunchDaemon:
+
+### Install
+
+```bash
+# Copy app to system location
+sudo mkdir -p /usr/local/babysitter
+sudo cp -R ./* /usr/local/babysitter/
+
+# Secure the .env file
+sudo chmod 600 /usr/local/babysitter/.env
+sudo chown root:wheel /usr/local/babysitter/.env
+
+# Install the daemon
+sudo cp com.babysitter.thermostat.plist /Library/LaunchDaemons/
+sudo chown root:wheel /Library/LaunchDaemons/com.babysitter.thermostat.plist
+sudo chmod 644 /Library/LaunchDaemons/com.babysitter.thermostat.plist
+
+# Start the daemon
+sudo launchctl load /Library/LaunchDaemons/com.babysitter.thermostat.plist
+```
+
+### Manage
+
+```bash
+# Check status
+sudo launchctl list | grep babysitter
+
+# View logs
+tail -f /var/log/babysitter.log
+tail -f /var/log/babysitter.error.log
+
+# Stop
+sudo launchctl unload /Library/LaunchDaemons/com.babysitter.thermostat.plist
+
+# Start
+sudo launchctl load /Library/LaunchDaemons/com.babysitter.thermostat.plist
+
+# Restart (after code changes)
+sudo launchctl unload /Library/LaunchDaemons/com.babysitter.thermostat.plist
+sudo launchctl load /Library/LaunchDaemons/com.babysitter.thermostat.plist
+```
+
+### Uninstall
+
+```bash
+sudo launchctl unload /Library/LaunchDaemons/com.babysitter.thermostat.plist
+sudo rm /Library/LaunchDaemons/com.babysitter.thermostat.plist
+sudo rm -rf /usr/local/babysitter
+```
+
+## Monitoring
+
+The app pings Healthchecks.io after each polling cycle. If the process stops or any API fails repeatedly, you'll be notified.
+
+Set `HEALTHCHECKS_URL` in `.env` to your Healthchecks.io ping URL.
 
 ## API
 
