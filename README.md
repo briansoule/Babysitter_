@@ -1,0 +1,72 @@
+# Thermostat Babysitter
+
+Monitors temperature from Airthings View Plus and Awair Element sensors, then controls your Nest thermostat to maintain your target temperature.
+
+**Zero dependencies** - uses only Node.js built-in modules.
+
+## Quick Start
+
+```bash
+cp .env.example .env
+# Edit .env with your credentials
+npm start
+```
+
+Dashboard: http://localhost:3000
+
+## Setup
+
+### 1. Awair Element (Local API - easiest)
+
+1. Open Awair Home app
+2. Go to Device Settings → Developer Option → Enable Local Sensors
+3. Find your device IP in your router, or use mDNS: `http://awair-elem-XXXXXX.local`
+4. Set `AWAIR_HOST` in `.env`
+
+### 2. Airthings View Plus (Cloud API)
+
+1. Go to https://dashboard.airthings.com/integrations/api-integration
+2. Create an API client
+3. Copy Client ID and Client Secret to `.env`
+4. Find your device serial number in the dashboard URL or via API
+5. Set `AIRTHINGS_DEVICE_ID` in `.env`
+
+### 3. Google Nest (Smart Device Management API)
+
+This requires more setup but gives full thermostat control:
+
+1. Pay the one-time $5 fee at https://console.nest.google.com/device-access
+2. Create a project in the Device Access Console
+3. Create OAuth credentials in Google Cloud Console
+4. Get a refresh token by completing the OAuth flow
+5. Fill in the NEST_* variables in `.env`
+
+Detailed guide: https://developers.google.com/nest/device-access/get-started
+
+## Configuration
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| TARGET_TEMP | 70 | Target temperature in °F |
+| THRESHOLD | 1.5 | Degrees from target before acting |
+| POLL_INTERVAL | 60 | Seconds between sensor checks |
+| PORT | 3000 | Dashboard port |
+
+## How It Works
+
+1. Polls both sensors every POLL_INTERVAL seconds
+2. Averages the temperature readings
+3. If average is THRESHOLD degrees below target → Heat
+4. If average is THRESHOLD degrees above target → Cool
+5. Logs everything to JSON file (data.json)
+6. Dashboard shows current state and history
+
+## API
+
+- `GET /` - HTML dashboard
+- `GET /api/state` - JSON state and history
+
+## Files
+
+- `data.json` - Stores readings, actions, and state
+- `.env` - Your configuration (copy from .env.example)

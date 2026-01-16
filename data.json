@@ -1,0 +1,216 @@
+{
+  "readings": [
+    {
+      "id": 9,
+      "timestamp": "2026-01-16T08:51:47.768Z",
+      "source": "nest",
+      "temperature": 74.3,
+      "humidity": 39,
+      "hvacStatus": "COOLING",
+      "fanRunning": true,
+      "mode": "COOL",
+      "setpointHeat": null,
+      "setpointCool": 69.999998
+    },
+    {
+      "id": 8,
+      "timestamp": "2026-01-16T08:51:47.402Z",
+      "source": "airthings",
+      "temperature": 72.5,
+      "humidity": 42,
+      "voc": 238,
+      "co2": 641,
+      "pm25": 178,
+      "radon": 18
+    },
+    {
+      "id": 7,
+      "timestamp": "2026-01-16T08:51:47.401Z",
+      "source": "awair",
+      "temperature": 70.646,
+      "humidity": 44.06,
+      "voc": 311,
+      "co2": 631,
+      "pm25": 87
+    },
+    {
+      "id": 6,
+      "timestamp": "2026-01-16T08:50:47.838Z",
+      "source": "nest",
+      "temperature": 74.3,
+      "humidity": 39,
+      "hvacStatus": "COOLING",
+      "fanRunning": true,
+      "mode": "COOL",
+      "setpointHeat": null,
+      "setpointCool": 69.0000026
+    },
+    {
+      "id": 5,
+      "timestamp": "2026-01-16T08:50:47.419Z",
+      "source": "airthings",
+      "temperature": 72.5,
+      "humidity": 42,
+      "voc": 238,
+      "co2": 641,
+      "pm25": 178,
+      "radon": 18
+    },
+    {
+      "id": 4,
+      "timestamp": "2026-01-16T08:50:47.418Z",
+      "source": "awair",
+      "temperature": 71.222,
+      "humidity": 45.31,
+      "voc": 287,
+      "co2": 631,
+      "pm25": 145
+    },
+    {
+      "id": 3,
+      "timestamp": "2026-01-16T08:49:48.391Z",
+      "source": "nest",
+      "temperature": 74.3,
+      "humidity": 39,
+      "hvacStatus": "HEATING",
+      "fanRunning": true,
+      "mode": "HEAT",
+      "setpointHeat": 75.000002,
+      "setpointCool": null
+    },
+    {
+      "id": 2,
+      "timestamp": "2026-01-16T08:49:47.925Z",
+      "source": "airthings",
+      "temperature": 72.5,
+      "humidity": 42,
+      "voc": 238,
+      "co2": 641,
+      "pm25": 178,
+      "radon": 18
+    },
+    {
+      "id": 1,
+      "timestamp": "2026-01-16T08:49:47.922Z",
+      "source": "awair",
+      "temperature": 71.528,
+      "humidity": 44.74,
+      "voc": 285,
+      "co2": 628,
+      "pm25": 111
+    }
+  ],
+  "actions": [
+    {
+      "id": 1,
+      "timestamp": "2026-01-16T08:49:49.324Z",
+      "action": "SET_COOL",
+      "reason": "Avg temp 72.0°F is 2.0° above target",
+      "avg_temp": 72.01400000000001,
+      "target_temp": 70
+    }
+  ],
+  "state": {
+    "last_error": {
+      "value": "No valid sensor readings",
+      "updated_at": "2026-01-16T08:49:15.601Z"
+    },
+    "avg_temp": {
+      "value": 71.57300000000001,
+      "updated_at": "2026-01-16T08:51:47.403Z"
+    },
+    "target_temp": {
+      "value": 70,
+      "updated_at": "2026-01-16T08:51:47.403Z"
+    },
+    "threshold": {
+      "value": 1.5,
+      "updated_at": "2026-01-16T08:51:47.403Z"
+    },
+    "sensor_count": {
+      "value": 2,
+      "updated_at": "2026-01-16T08:51:47.403Z"
+    },
+    "last_check": {
+      "value": "2026-01-16T08:51:47.403Z",
+      "updated_at": "2026-01-16T08:51:47.403Z"
+    },
+    "nest_state": {
+      "value": {
+        "mode": "COOL",
+        "hvacStatus": "COOLING",
+        "temperature": 74.3,
+        "humidity": 39,
+        "setpointHeat": null,
+        "setpointCool": 69.999998,
+        "fanRunning": true,
+        "fanTimerTimeout": "2026-01-16T20:07:55Z",
+        "raw": {
+          "name": "enterprises/a4fbfd0c-3bea-4f0f-b840-4c617de97730/devices/AVPHwEtwUMCevMeltaneVgv4DXqy6SvHXT7ykWB58bhs65xTJsB-H7YqPWh8_5aUWeK8ms3zMNhsloPBMLicDzun0TSOlQ",
+          "type": "sdm.devices.types.THERMOSTAT",
+          "assignee": "enterprises/a4fbfd0c-3bea-4f0f-b840-4c617de97730/structures/AVPHwEsYW7a1vbp4RKLSMDf-GhofToJjCRb8zECv41zVCo0DO7xtFjG8Z7ASvQl7T3Ozx9bRLjXPaF8nduVFF_R4V_DpRA/rooms/AVPHwEtwV4eIdv_XPUAgSLb9zjU08gIhIlefnH0eWypJeEAk-WE4LOW-Rvs0NbO0MefZkm7xQ2mDzoFCoGuKjVELdafGym5v_dDc4Uw1VT9zukiNC34vPEBni-GOTWOwCUse-rFxf6ip0JA",
+          "traits": {
+            "sdm.devices.traits.Info": {
+              "customName": ""
+            },
+            "sdm.devices.traits.Humidity": {
+              "ambientHumidityPercent": 39
+            },
+            "sdm.devices.traits.Connectivity": {
+              "status": "ONLINE"
+            },
+            "sdm.devices.traits.Fan": {
+              "timerMode": "ON",
+              "timerTimeout": "2026-01-16T20:07:55Z"
+            },
+            "sdm.devices.traits.ThermostatMode": {
+              "mode": "COOL",
+              "availableModes": [
+                "HEAT",
+                "COOL",
+                "HEATCOOL",
+                "OFF"
+              ]
+            },
+            "sdm.devices.traits.ThermostatEco": {
+              "availableModes": [
+                "OFF",
+                "MANUAL_ECO"
+              ],
+              "mode": "OFF",
+              "heatCelsius": 13.5,
+              "coolCelsius": 28
+            },
+            "sdm.devices.traits.ThermostatHvac": {
+              "status": "COOLING"
+            },
+            "sdm.devices.traits.Settings": {
+              "temperatureScale": "FAHRENHEIT"
+            },
+            "sdm.devices.traits.ThermostatTemperatureSetpoint": {
+              "coolCelsius": 21.11111
+            },
+            "sdm.devices.traits.Temperature": {
+              "ambientTemperatureCelsius": 23.5
+            }
+          },
+          "parentRelations": [
+            {
+              "parent": "enterprises/a4fbfd0c-3bea-4f0f-b840-4c617de97730/structures/AVPHwEsYW7a1vbp4RKLSMDf-GhofToJjCRb8zECv41zVCo0DO7xtFjG8Z7ASvQl7T3Ozx9bRLjXPaF8nduVFF_R4V_DpRA/rooms/AVPHwEtwV4eIdv_XPUAgSLb9zjU08gIhIlefnH0eWypJeEAk-WE4LOW-Rvs0NbO0MefZkm7xQ2mDzoFCoGuKjVELdafGym5v_dDc4Uw1VT9zukiNC34vPEBni-GOTWOwCUse-rFxf6ip0JA",
+              "displayName": "Living Room"
+            }
+          ]
+        }
+      },
+      "updated_at": "2026-01-16T08:51:47.767Z"
+    },
+    "last_action": {
+      "value": "COOL",
+      "updated_at": "2026-01-16T08:51:47.768Z"
+    },
+    "last_reason": {
+      "value": "Avg temp 71.6°F is 1.6° above target",
+      "updated_at": "2026-01-16T08:51:47.768Z"
+    }
+  }
+}
