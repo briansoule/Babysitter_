@@ -101,45 +101,51 @@ export async function evaluateAndControl(readings) {
   }
 
   // Execute action if Nest is configured
+  // Strategy: Override Nest's inaccurate sensor by setting extreme setpoints
+  // to force HVAC on, and use OFF mode when temperature is satisfied
   if (nest.isConfigured() && nestState) {
     const currentMode = nestState.mode;
+    const nestTemp = nestState.temperature;
 
     if (action === 'HEAT') {
+      // Force heating: set mode to HEAT with setpoint above Nest's reading
+      const forceSetpoint = Math.max(nestTemp + 15, 90); // Always above Nest temp
+
       if (currentMode !== 'HEAT') {
         console.log('[Controller] Switching Nest to HEAT mode');
         await nest.setMode('HEAT');
-      }
-      // Always update setpoint to match target
-      const currentSetpoint = nestState.setpointHeat;
-      if (Math.abs(currentSetpoint - TARGET_TEMP) > 0.5) {
-        console.log(`[Controller] Updating heat setpoint from ${currentSetpoint?.toFixed(1)}°F to ${TARGET_TEMP}°F`);
-        await nest.setHeatTemp(TARGET_TEMP);
-      }
-      if (currentMode !== 'HEAT') {
         db.saveAction('SET_HEAT', reason, avgTemp, TARGET_TEMP);
       }
+
+      // Ensure setpoint is high enough to force heating
+      if (nestState.setpointHeat < nestTemp + 2) {
+        console.log(`[Controller] Forcing heat: setting setpoint to ${forceSetpoint}°F (Nest reads ${nestTemp?.toFixed(1)}°F)`);
+        await nest.setHeatTemp(forceSetpoint);
+      }
     } else if (action === 'COOL') {
+      // Force cooling: set mode to COOL with setpoint below Nest's reading
+      const forceSetpoint = Math.min(nestTemp - 15, 50); // Always below Nest temp
+
       if (currentMode !== 'COOL') {
         console.log('[Controller] Switching Nest to COOL mode');
         await nest.setMode('COOL');
-      }
-      // Always update setpoint to match target
-      const currentSetpoint = nestState.setpointCool;
-      if (Math.abs(currentSetpoint - TARGET_TEMP) > 0.5) {
-        console.log(`[Controller] Updating cool setpoint from ${currentSetpoint?.toFixed(1)}°F to ${TARGET_TEMP}°F`);
-        await nest.setCoolTemp(TARGET_TEMP);
-      }
-      if (currentMode !== 'COOL') {
         db.saveAction('SET_COOL', reason, avgTemp, TARGET_TEMP);
       }
+
+      // Ensure setpoint is low enough to force cooling
+      if (nestState.setpointCool > nestTemp - 2) {
+        console.log(`[Controller] Forcing cool: setting setpoint to ${forceSetpoint}°F (Nest reads ${nestTemp?.toFixed(1)}°F)`);
+        await nest.setCoolTemp(forceSetpoint);
+      }
     } else if (action === 'MAINTAIN') {
-      // Optionally turn off if within range
-      // Uncomment to enable auto-off behavior:
-      // if (currentMode !== 'OFF') {
-      //   await nest.setMode('OFF');
-      //   db.saveAction('SET_OFF', reason, avgTemp, TARGET_TEMP);
-      // }
-      db.saveAction('MAINTAIN', reason, avgTemp, TARGET_TEMP);
+      // Temperature satisfied - turn off HVAC
+      if (currentMode !== 'OFF') {
+        console.log('[Controller] Temperature satisfied, turning Nest OFF');
+        await nest.setMode('OFF');
+        db.saveAction('SET_OFF', reason, avgTemp, TARGET_TEMP);
+      } else {
+        db.saveAction('MAINTAIN', reason, avgTemp, TARGET_TEMP);
+      }
     }
   } else {
     // Log action even if Nest not configured
